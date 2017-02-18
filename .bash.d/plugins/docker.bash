@@ -35,7 +35,7 @@ d-all() {
   case "$cmd" in
     ''|ps) docker ps --all "$@" ;;
     rmi) docker rmi $(docker images --quiet) "$@" ;;
-    rm|start|stop|*) docker $cmd $(docker ps --all --quiet) "$@" ;;
+    rm|start|stop|*) docker "$cmd" $(docker ps --all --quiet) "$@" ;;
   esac
 }
 
@@ -44,7 +44,9 @@ d-clean() {
   shift
   case "$cmd" in # d i | awk '/<none>/ {print $3}/'
     ''|images) local dangling="$(d dangling)"; if [[ -n "$dangling" ]]; then docker rmi $dangling "$@"; fi ;;
+    # created) docker rm $(docker ps --all | awk '/Created \([0-9]+\)/ {print $1}') ;;
     exited) docker rm $(docker ps --all | awk '/Exited \([0-9]+\)/ {print $1}') ;;
+    *) return 1 ;;
   esac
 }
 
