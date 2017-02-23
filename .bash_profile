@@ -21,13 +21,6 @@ main() {
   do shopt -s "$option" 2> /dev/null
   done
 
-  # [[ -z "$PS1" ]] && PS1='\u at \h in \w\n\$ '
-
-  PROMPT_SYMBOL='› '
-  PROMPT_COMMAND='__prompt_command'
-  PS1=$(__prompt_string "$PROMPT_SYMBOL") # $ ✓ → ×
-  PS2=${PROMPT_SYMBOL:-> }
-
   # aliases,exports,functions,path,prompt
   load "$BASH_DIR"/*.bash
   # OS="$(uname -o 2>/dev/null || uname -s | to lower)"
@@ -37,6 +30,12 @@ main() {
   do f="${file##*/}"
     hash "${f%.bash}" 2>/dev/null && source "$file"
   done
+
+  # [[ -z "$PS1" ]] && PS1='\u at \h in \w\n\$ '
+  PROMPT_SYMBOL='› '
+  PROMPT_COMMAND='__prompt_command'
+  PS1=$(__prompt_string "$PROMPT_SYMBOL") # $ ✓ → ×
+  PS2=${PROMPT_SYMBOL:-> }
 
   load "$HOME"/.bashrc.local
 }
