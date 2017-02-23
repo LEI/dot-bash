@@ -16,12 +16,17 @@ load() {
 }
 
 main() {
-  # [[ -z "$PS1" ]] && PS1='\u at \h in \w\n\$ '
-
   local option
   for option in autocd cdspell checkwinsize extglob globstar histappend nocaseglob
   do shopt -s "$option" 2> /dev/null
   done
+
+  # [[ -z "$PS1" ]] && PS1='\u at \h in \w\n\$ '
+
+  PROMPT_SYMBOL='› '
+  PROMPT_COMMAND='__prompt_command'
+  PS1=$(__prompt_string "$PROMPT_SYMBOL") # $ ✓ → ×
+  PS2=${PROMPT_SYMBOL:-> }
 
   # aliases,exports,functions,path,prompt
   load "$BASH_DIR"/*.bash

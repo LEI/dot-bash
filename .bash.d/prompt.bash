@@ -1,10 +1,5 @@
 #!/usr/bin/env bash
 
-PROMPT_SYMBOL='› '
-PROMPT_COMMAND='__prompt_command'
-PS1=$(__prompt_string "$PROMPT_SYMBOL") # $ ✓ → ×
-PS2=${PROMPT_SYMBOL:-> }
-
 __prompt_command() {
   local exit=$?
 
