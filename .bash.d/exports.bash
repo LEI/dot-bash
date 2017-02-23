@@ -15,3 +15,11 @@ export HISTTIMEFORMAT="%F %T "
 
 # export LESS_TERMCAP_md="${yellow}"
 # export MANPAGER="less -X"
+
+# Disable shared history (~/.bash_sessions_disable)
+# SHELL_SESSION_HISTORY=0
+
+# Ctrl-D
+# if [[ "$IGNOREEOF" -lt 10 ]]
+# then export IGNOREEOF=10
+# fi
