@@ -21,13 +21,13 @@ main() {
   do shopt -s "$option" 2> /dev/null
   done
 
-  load "$BASH_DIR"/{aliases/*,environment/*,functions/*,colors,prompt}.bash
+  load "$BASH_DIR"/{aliases/*,functions/*,environment/*,colors,prompt}.bash
   # OS="$(uname -o 2>/dev/null || uname -s | to lower)"
 
   local file f
   for file in $BASH_DIR/plugins/*.bash
   do f="${file##*/}"
-    hash "${f%.bash}" 2>/dev/null && source "$file"
+    hash "${f%.bash}" 2>/dev/null && load "$file"
   done
 
   # [[ -z "$PS1" ]] && PS1='\u at \h in \w\n\$ '
