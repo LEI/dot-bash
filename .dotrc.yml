@@ -1,9 +1,9 @@
 dir: ".bash.d"
 links:
   - ".inputrc"
-  - ".bash.d/*"
+  - "bash.d/*:.bash.d"
 lines:
-  - file: ".bashrc"
+  - path: ".bashrc"
     line: "[[ -n \"$PS1\" ]] && [[ -f ~/.bash_profile ]] && source ~/.bash_profile"
-  - file: ".bash_profile"
+  - path: ".bash_profile"
     line: "[[ -f ~/.bash.d/init.bash ]] && source ~/.bash.d/init.bash"
