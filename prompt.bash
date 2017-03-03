@@ -56,6 +56,7 @@ __prompt_string() {
   # Display the host only if different of the user
   if [[ "${USER}" != "${HOSTNAME%%.*}" ]]
   then
+    p+='\[${dim}\]'
     p+=' at'
     # Highlight when connected via SSH
     if [[ -n "${SSH_TTY}" ]]
@@ -69,6 +70,7 @@ __prompt_string() {
   fi
 
   # Working directory
+  p+='\[${dim}\]'
   p+=' in'
   p+='\[${white}\]'
   p+=' \w'
@@ -76,8 +78,7 @@ __prompt_string() {
   p+='\[${reset}\]'
 
   # Git status
-  # p+='$(__prompt_git " on " "%s" "\[${white}\]%s\[${reset}\]")'
-  p+='$(__prompt_git)'
+  p+='$(__prompt_git "\[${dim}\] on \[${reset}\]%s%s")'
 
   p+='\n'
 
@@ -140,11 +141,11 @@ __prompt_git() {
 
   local branch=
   ## master...origin/master
-  if [[ $branch_info =~ "..." ]]
+  if [[ "$branch_info" =~ "..." ]]
   then
     branch="${branch_info%\.\.\.*}"
     branch="${branch##* }"
-  elif [[ $branch_info =~ "HEAD (no branch)" ]]
+  elif [[ "$branch_info" =~ "HEAD (no branch)" ]]
   then
     branch="$short_sha"
   else

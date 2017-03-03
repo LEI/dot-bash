@@ -3,6 +3,7 @@
 if tput setaf 1 &> /dev/null; then
   reset=$(tput sgr0)
   bold=$(tput bold)
+  dim=$(tput dim)
   # blink=$(tput blink)
   # reverse=$(tput smso)
   # underline=$(tput smul)
@@ -20,6 +21,7 @@ else
   # https://github.com/Bash-it/bash-it/blob/master/themes/colors.theme.bash
   reset="\[\e[0m\]"
   bold="\[\e[1m\]"
+  dim="\[\e[2m\]"
   # reset_color="\[\e[39m\]" # Default foreground color
 
   black="\[\e[0;30m\]"
