@@ -56,9 +56,11 @@ __prompt_string() {
   # Display the host only if different of the user
   if [[ "${USER}" != "${HOSTNAME%%.*}" ]]
   then
+    p+=' '
     p+='\[${dim}\]'
-    p+=' at'
+    p+='at'
     p+='\[${reset}\]'
+    p+=' '
     # Highlight when connected via SSH
     if [[ -n "${SSH_TTY}" ]]
     then
@@ -66,16 +68,18 @@ __prompt_string() {
     else
       p+='\[${cyan}\]'
     fi
-    p+=' \h'
+    p+='\h'
     p+='\[${reset}\]'
   fi
 
   # Working directory
+  p+=' '
   p+='\[${dim}\]'
-  p+=' in'
+  p+='in'
   p+='\[${reset}\]'
-  p+='\[${bright_green}\]'
-  p+=' \w'
+  p+=' '
+  p+='\[${bright_blue}\]'
+  p+='\w'
 
   p+='\[${reset}\]'
 
@@ -155,7 +159,7 @@ __prompt_git() {
   fi
 
   local flag=
-  local flag_color="bright_green"
+  local flag_color="bright_blue"
   local branch_color=
   if [[ "$count" -gt 0 ]]
   then

@@ -12,11 +12,11 @@ if tput setaf 1 &> /dev/null; then
   reverse="$(tput rev)"
   standout="$(tput smso)"
 
-  reset_bold="$(tput sgr0)"
-  reset_dim="$(tput sgr0)"
+  # reset_bold="$(tput sgr0)"
+  # reset_dim="$(tput sgr0)"
   reset_underline="$(tput rmul)"
-  reset_blink="$(tput sgr0)"
-  reset_reverse="$(tput sgr0)"
+  # reset_blink="$(tput sgr0)"
+  # reset_reverse="$(tput sgr0)"
   reset_standout="$(tput rmso)"
 
   # restore=$(tput rmcup)
