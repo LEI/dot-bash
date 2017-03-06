@@ -58,6 +58,7 @@ __prompt_string() {
   then
     p+='\[${dim}\]'
     p+=' at'
+    p+='\[${reset}\]'
     # Highlight when connected via SSH
     if [[ -n "${SSH_TTY}" ]]
     then
@@ -72,6 +73,7 @@ __prompt_string() {
   # Working directory
   p+='\[${dim}\]'
   p+=' in'
+  p+='\[${reset}\]'
   p+='\[${white}\]'
   p+=' \w'
 

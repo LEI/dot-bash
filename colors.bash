@@ -1,17 +1,25 @@
 #!/usr/bin/env bash
 
+# https://github.com/Bash-it/bash-it/blob/master/themes/colors.theme.bash
+
 if tput setaf 1 &> /dev/null; then
   reset=$(tput sgr0)
+
   bold=$(tput bold)
   dim=$(tput dim)
-  underline="\[\e[4m\]"
-  blink="\[\e[5m\]"
+  underline=$(tput smul)
   blink=$(tput blink)
-  reverse="\[\e[7m\]"
-  resetdim="\[\e[22m\]"
-  resetdim=$(tput sgr0)
-  reverse=$(tput smso)
-  # underline=$(tput smul)
+  reverse=$(tput rev)
+  standout=$(tput smso)
+
+  reset_bold=$(tput sgr0)
+  reset_dim="$(tput sgr0)"
+  reset_underline=$(tput sgr0)
+  reset_underline=$(tput rmul)
+  reset_blink=$(tput sgr0)
+  reset_standout=$(tput rmso)
+
+  # restore=$(tput rmcup)
 
   black=$(tput setaf 0)
   red=$(tput setaf 1)
@@ -23,15 +31,20 @@ if tput setaf 1 &> /dev/null; then
   white=$(tput setaf 7)
   orange=$(tput setaf 166)
 else
-  # https://github.com/Bash-it/bash-it/blob/master/themes/colors.theme.bash
   reset="\[\e[0m\]"
+
   bold="\[\e[1m\]"
   dim="\[\e[2m\]"
   underline="\[\e[4m\]"
   blink="\[\e[5m\]"
   reverse="\[\e[7m\]"
-  resetdim="\[\e[22m\]"
+
   # reset_color="\[\e[39m\]" # Default foreground color
+  reset_bold="\[\e[21m\]"
+  reset_dim="\[\e[22m\]"
+  reset_underline="\[\e[24m\]"
+  reset_blink="\[\e[25m\]"
+  reset_reverse="\[\e[27m\]"
 
   black="\[\e[0;30m\]"
   red="\[\e[0;31m\]"
