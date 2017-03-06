@@ -147,11 +147,11 @@ __prompt_git() {
 
   local branch=
   ## master...origin/master
-  if [[ "$branch_info" =~ "..." ]]
+  if [[ "$branch_info" =~ ... ]]
   then
     branch="${branch_info%\.\.\.*}"
     branch="${branch##* }"
-  elif [[ "$branch_info" =~ "HEAD (no branch)" ]]
+  elif [[ "$branch_info" =~ HEAD\ (no\ branch) ]]
   then
     branch="$short_sha"
   else
