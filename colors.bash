@@ -4,8 +4,12 @@ if tput setaf 1 &> /dev/null; then
   reset=$(tput sgr0)
   bold=$(tput bold)
   dim=$(tput dim)
+  underline="\[\e[4m\]"
+  blink="\[\e[5m\]"
+  blink=$(tput blink)
+  reverse="\[\e[7m\]"
+  resetdim="\[\e[22m\]"
   resetdim=$(tput sgr0)
-  # blink=$(tput blink)
   reverse=$(tput smso)
   # underline=$(tput smul)
 
