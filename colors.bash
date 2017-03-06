@@ -4,8 +4,9 @@ if tput setaf 1 &> /dev/null; then
   reset=$(tput sgr0)
   bold=$(tput bold)
   dim=$(tput dim)
+  resetdim=$(tput sgr0)
   # blink=$(tput blink)
-  # reverse=$(tput smso)
+  reverse=$(tput smso)
   # underline=$(tput smul)
 
   black=$(tput setaf 0)
@@ -22,6 +23,10 @@ else
   reset="\[\e[0m\]"
   bold="\[\e[1m\]"
   dim="\[\e[2m\]"
+  underline="\[\e[4m\]"
+  blink="\[\e[5m\]"
+  reverse="\[\e[7m\]"
+  resetdim="\[\e[22m\]"
   # reset_color="\[\e[39m\]" # Default foreground color
 
   black="\[\e[0;30m\]"
