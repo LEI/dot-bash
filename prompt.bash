@@ -74,7 +74,7 @@ __prompt_string() {
   p+='\[${dim}\]'
   p+=' in'
   p+='\[${reset}\]'
-  p+='\[${white}\]'
+  p+='\[${bright_green}\]'
   p+=' \w'
 
   p+='\[${reset}\]'
@@ -155,7 +155,7 @@ __prompt_git() {
   fi
 
   local flag=
-  local flag_color="white"
+  local flag_color="bright_green"
   local branch_color=
   if [[ "$count" -gt 0 ]]
   then
