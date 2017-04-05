@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+# https://github.com/wsargent/docker-cheat-sheet
+
 # TODO check alias d=?
 
 d() {
