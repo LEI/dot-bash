@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# shellcheck disable=SC2046,SC2086
 
 # https://github.com/wsargent/docker-cheat-sheet
 
@@ -43,9 +44,10 @@ d-all() {
 
 d-clean() {
   local cmd="$1"
+  local dangling=
   shift
   case "$cmd" in # d i | awk '/<none>/ {print $3}/'
-    ''|images) local dangling="$(d dangling)"; if [[ -n "$dangling" ]]; then docker rmi $dangling "$@"; fi ;;
+    ''|images) dangling="$(d dangling)"; if [[ -n "$dangling" ]]; then docker rmi $dangling "$@"; fi ;;
     # created) docker rm $(docker ps --all | awk '/Created \([0-9]+\)/ {print $1}') ;;
     exited) docker rm $(docker ps --all | awk '/Exited \([0-9]+\)/ {print $1}') ;;
     *) return 1 ;;
