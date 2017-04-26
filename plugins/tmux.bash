@@ -9,6 +9,10 @@ t() {
   fi
 }
 
+tmux_defaults() {
+  tmux -f/dev/null -Ltmp lsk
+}
+
 # tmux_session_exists() {
 #   local session_name="$1"
 #   tmux list-sessions | sed -E 's/:.*$//' | grep -q "^$session_name$"
