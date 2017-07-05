@@ -1,10 +1,11 @@
-link:
-  - ".inputrc"
-  - "*.bash:.bash.d"
-  - "aliases:.bash.d"
-  - "environment:.bash.d"
-  - "functions:.bash.d"
-  - "plugins:.bash.d"
-line:
-  ".bashrc": "[[ -n \"$PS1\" ]] && [[ -f ~/.bash_profile ]] && source ~/.bash_profile"
-  ".bash_profile": "[[ -f ~/.bash.d/init.bash ]] && source ~/.bash.d/init.bash"
+role:
+  link:
+    - ".inputrc"
+    - "*.bash:.bash.d"
+    - "aliases:.bash.d"
+    - "environment:.bash.d"
+    - "functions:.bash.d"
+    - "plugins:.bash.d"
+  line:
+    ".bashrc": "[[ -n \"$PS1\" ]] && [[ -f ~/.bash_profile ]] && source ~/.bash_profile"
+    ".bash_profile": "[[ -f ~/.bash.d/init.bash ]] && source ~/.bash.d/init.bash"
