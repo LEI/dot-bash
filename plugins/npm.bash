@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
-if ! hash npm 2>/dev/null
-then return
+if ! hash npm 2>/dev/null; then
+  return
 fi
 
 # if [[ -z "${NODE_MODULES_PATH-}" ]]; then

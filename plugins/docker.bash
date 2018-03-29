@@ -55,8 +55,8 @@ d-clean() {
 }
 
 d-env() {
-  if [[ $# -ne 0 ]]
-  then d-machine env "$@"
+  if [[ $# -ne 0 ]]; then
+    d-machine env "$@"
   else
     local v
     for v in "${!DOCKER_@}"
@@ -128,14 +128,14 @@ d-run() {
       # --publish 80:80
 }
 
-if hash _docker 2>/dev/null
-then complete -F _docker d
+if hash _docker 2>/dev/null; then
+  complete -F _docker d
 fi
 
-if hash _docker-compose 2>/dev/null
-then complete -F _docker-machine d-compose
+if hash _docker-compose 2>/dev/null; then
+  complete -F _docker-machine d-compose
 fi
 
-if hash _docker-machine 2>/dev/null
-then complete -F _docker-machine d-machine
+if hash _docker-machine 2>/dev/null; then
+  complete -F _docker-machine d-machine
 fi

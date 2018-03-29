@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
-if ! hash ruby 2>/dev/null
-then return
+if ! hash ruby 2>/dev/null; then
+  return
 fi
 
 export GEM_HOME="$(ruby -e 'print Gem.user_dir')"
