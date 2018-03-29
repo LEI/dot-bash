@@ -43,6 +43,7 @@ __prompt_string() {
   # p+='\[$(tput sc; printf "%*s\r" "$width" "$(date +%T)"; tput rc)\]'
   # p+='\[$(tput sc; printf "%*s" "$width" "\t"; tput rc)\]'
 
+  p+='\[${reset}\]'
   # Highlight the user when logged in as root
   if [[ "${USER}" = "root" ]]
   then
