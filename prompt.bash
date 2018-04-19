@@ -8,6 +8,9 @@ __prompt_command() {
   else
     EXIT_COLOR="${red}"
   fi
+
+  # # Record each line as it gets issued
+  # history -a
 }
 
 __prompt_right() {
