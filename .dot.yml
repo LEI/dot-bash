@@ -1,6 +1,19 @@
 ---
-
 role:
+  pkg:
+    - bash
+    - bash-completion
+    - tree
+  pkg_android: # termux
+    - busybox
+    - ca-certificates
+    - coreutils
+    - curl
+    - grep
+    - less
+    - man
+    - ncurses-utils
+    - readline
   link:
     - ".inputrc"
     - "*.bash:.bash.d"
