@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+# Enable aliases even if not interactive
+shopt -s expand_aliases
+
 alias sudo="sudo "
 
 # alias df="df -ah" # -T --total # pydf
