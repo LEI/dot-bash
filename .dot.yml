@@ -4,6 +4,8 @@ role:
     - bash
     - bash-completion
     - tree
+    - name: fzf
+      os: ["darwin"]
   # pkg_android: # termux
   #   - busybox
   #   - ca-certificates
