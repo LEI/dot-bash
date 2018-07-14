@@ -3,6 +3,10 @@
 
 # https://github.com/wsargent/docker-cheat-sheet
 
+if ! hash docker 2>/dev/null; then
+  return
+fi
+
 # TODO check alias d=?
 
 d() {

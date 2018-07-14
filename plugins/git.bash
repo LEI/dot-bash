@@ -1,5 +1,11 @@
 #!/usr/bin/env bash
 
+# Use ~/.gitconfig [alias] to manage shortcuts.
+
+if ! hash git 2>/dev/null; then
+  return
+fi
+
 g() {
   if [[ $# -gt 0 ]]; then
     git "$@"

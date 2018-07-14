@@ -1,5 +1,9 @@
 #!/usr/bin/env bash
 
+if ! hash tmux 2>/dev/null; then
+  return
+fi
+
 t() {
   if [[ $# -ne 0 ]]; then
     tmux "$@"
