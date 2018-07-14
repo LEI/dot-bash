@@ -4,5 +4,6 @@ if ! hash ag 2>/dev/null; then
   return
 fi
 
-# Search hidden files by default while respecting .agignore
-alias ag="ag --hidden"
+# Search hidden files by default
+# alias ag="ag --hidden --path-to-ignore ~/.agignore"
+alias ag="ag --hidden --ignore .git" # -g \"\""
