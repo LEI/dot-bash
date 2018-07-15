@@ -19,6 +19,7 @@ if hash _git 2>/dev/null; then
   complete -o bashdefault -o default -o nospace -F _git g # __git_wrap__git_main
 fi
 
+# https://github.com/defunkt/gist
 if ! hash gist 2>/dev/null || [[ "$_custom_gist" -eq 1 ]]; then
   gist() {
     local cmd="$1"
