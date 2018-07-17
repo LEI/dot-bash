@@ -6,11 +6,12 @@ load() {
   local path
   for path in "$@"
   do
-    if [[ -d "$path" ]]
-    then load "$path"/*
-    elif [[ -r "$path" ]] && [[ -f "$path" ]] # || [[ -L "$f" ]]
-    then source "$path"
-    # else >&2 printf "%s\n" "$path: No such file or directory"
+    if [[ -d "$path" ]]; then
+      load "$path"/*
+    elif [[ -r "$path" ]] && [[ -f "$path" ]]; then # || [[ -L "$f" ]]
+      source "$path"
+    # else
+    #   >&2 printf "%s\n" "$path: No such file or directory"
     fi
   done
 }

@@ -17,5 +17,4 @@ source_prefix() {
     return 1
   fi
   source "$file"
-  echo sourced "$file"
 }
