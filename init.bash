@@ -21,7 +21,7 @@ main() {
   do shopt -s "$option" 2> /dev/null
   done
 
-  load "$BASH_DIR"/{defaults,aliases/*,functions/*,environment/*,colors,prompt}.bash
+  load "$BASH_DIR"/{defaults,aliases/*,functions/*,environment/*,completion,colors,prompt}.bash
   # OS="$(uname -o 2>/dev/null || uname -s | to lower)"
 
   local file f
