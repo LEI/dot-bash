@@ -1,13 +1,29 @@
 ---
-
 role:
+  pkg:
+    - bash
+    - bash-completion
+    - tree
+    - name: fzf
+      os: ["darwin"]
+  # pkg_android: # termux
+  #   - busybox
+  #   - ca-certificates
+  #   - coreutils
+  #   - curl
+  #   - grep
+  #   - less
+  #   - man
+  #   - ncurses-utils
+  #   - readline
   link:
     - ".inputrc"
+    - "bin:bin"
     - "*.bash:.bash.d"
     - "aliases:.bash.d"
     - "environment:.bash.d"
     - "functions:.bash.d"
     - "plugins:.bash.d"
-  line:
+  line: # FIXME: check if ~/.bashrc is already sourced from ~/.bash_profile
     ".bashrc": "[[ -n \"$PS1\" ]] && [[ -f ~/.bash_profile ]] && source ~/.bash_profile"
     ".bash_profile": "[[ -f ~/.bash.d/init.bash ]] && source ~/.bash.d/init.bash"

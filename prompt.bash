@@ -3,19 +3,20 @@
 __prompt_command() {
   local exit=$?
 
-  if [[ "$exit" -eq 0 ]]
-  then
+  if [[ "$exit" -eq 0 ]]; then
     EXIT_COLOR=""
   else
     EXIT_COLOR="${red}"
   fi
+
+  # # Record each line as it gets issued
+  # history -a
 }
 
 __prompt_right() {
   local width
 
-  if [[ -n "$COLUMNS" ]]
-  then
+  if [[ -n "$COLUMNS" ]]; then
     width="$COLUMNS"
   else
     width="$(tput cols)"
@@ -45,8 +46,7 @@ __prompt_string() {
 
   p+='\[${reset}\]'
   # Highlight the user when logged in as root
-  if [[ "${USER}" = "root" ]]
-  then
+  if [[ "${USER}" = "root" ]]; then
     p+='\[${red}\]'
   else
     p+='\[${blue}\]'
@@ -55,16 +55,14 @@ __prompt_string() {
   p+='\[${reset}\]'
 
   # Display the host only if different of the user
-  if [[ "${USER}" != "${HOSTNAME%%.*}" ]]
-  then
+  if [[ "${USER}" != "${HOSTNAME%%.*}" ]]; then
     p+=' '
     p+='\[${dim}\]'
     p+='at'
     p+='\[${reset}\]'
     p+=' '
     # Highlight when connected via SSH
-    if [[ -n "${SSH_TTY}" ]]
-    then
+    if [[ -n "${SSH_TTY}" ]]; then
       p+='\[${red}\]'
     else
       p+='\[${cyan}\]'
@@ -79,9 +77,9 @@ __prompt_string() {
   p+='in'
   p+='\[${reset}\]'
   p+=' '
-  p+='\[${bright_blue}\]'
+  # p+='\[${bold}\]'
+  p+='\[${bright_blue}\]' # white
   p+='\w'
-
   p+='\[${reset}\]'
 
   # Git status
@@ -102,8 +100,7 @@ __prompt_git() {
     --is-bare-repository --is-inside-work-tree \
     --short HEAD 2>/dev/null)"
   local rev_parse_exit="$?"
-  if [[ -z "$repo_info" ]]
-  then
+  if [[ -z "$repo_info" ]]; then
     return $exit
   fi
   local short_sha="${repo_info##*$'\n'}"
@@ -132,10 +129,8 @@ __prompt_git() {
   do
     ## [ahead x, behind y]
     pattern='(\[|[[:space:]])'${var}'[[:space:]]+([[:digit:]])(,|\])'
-    if [[ "$branch_info" =~ $pattern ]]
-    then
-      if [[ "${#BASH_REMATCH[@]}" -ge 2 ]]
-      then
+    if [[ "$branch_info" =~ $pattern ]]; then
+      if [[ "${#BASH_REMATCH[@]}" -ge 2 ]]; then
         # ${!var}="${BASH_REMATCH[2]}"
         declare "${var}"="${BASH_REMATCH[2]}"
       fi
@@ -143,17 +138,15 @@ __prompt_git() {
   done
 
   local diff=
+  local head_no_branch=""
   [[ -n "$behind" ]] && diff+="<"
   [[ -n "$ahead" ]] && diff+=">"
-
   local branch=
   ## master...origin/master
-  if [[ "$branch_info" =~ ... ]]
-  then
+  if [[ "$branch_info" =~ \.\.\. ]]; then
     branch="${branch_info%\.\.\.*}"
     branch="${branch##* }"
-  elif [[ "$branch_info" =~ HEAD\ (no\ branch) ]]
-  then
+  elif [[ "$branch_info" = "HEAD (no branch)" ]]; then
     branch="$short_sha"
   else
     branch="$branch_info"
@@ -162,17 +155,14 @@ __prompt_git() {
   local flag=
   local flag_color="bright_blue"
   local branch_color=
-  if [[ "$count" -gt 0 ]]
-  then
+  if [[ "$count" -gt 0 ]]; then
     flag="*"
-    if [[ "$branch" == "master" ]]
-    then
+    if [[ "$branch" == "master" ]]; then
       branch_color="red"
     else
       branch_color="orange"
     fi
-  elif [[ -n "$ahead" ]] || [[ -n "$behind" ]]
-  then
+  elif [[ -n "$ahead" ]] || [[ -n "$behind" ]]; then
     branch_color="yellow"
   else
     branch_color="green"

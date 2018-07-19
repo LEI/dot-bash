@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
-if ! hash rbenv 2>/dev/null || [[ -n "${RBENV_SHIMS:-}" ]]
-then return
+if ! hash rbenv 2>/dev/null || [[ -n "${RBENV_SHIMS:-}" ]]; then
+  return
 fi
 
 export RBENV_SHELL=bash

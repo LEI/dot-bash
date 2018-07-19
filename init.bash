@@ -6,22 +6,23 @@ load() {
   local path
   for path in "$@"
   do
-    if [[ -d "$path" ]]
-    then load "$path"/*
-    elif [[ -r "$path" ]] && [[ -f "$path" ]] # || [[ -L "$f" ]]
-    then source "$path"
-    # else >&2 printf "%s\n" "$path: No such file or directory"
+    if [[ -d "$path" ]]; then
+      load "$path"/*
+    elif [[ -r "$path" ]] && [[ -f "$path" ]]; then # || [[ -L "$f" ]]
+      source "$path"
+    # else
+    #   >&2 printf "%s\n" "$path: No such file or directory"
     fi
   done
 }
 
 main() {
   local option
-  for option in autocd cdspell checkwinsize extglob globstar histappend nocaseglob
+  for option in autocd cdspell checkwinsize cmdhist dirspell extglob globstar histappend nocaseglob
   do shopt -s "$option" 2> /dev/null
   done
 
-  load "$BASH_DIR"/{aliases/*,functions/*,environment/*,colors,prompt}.bash
+  load "$BASH_DIR"/{defaults,aliases/*,functions/*,environment/*,completion,colors,prompt}.bash
   # OS="$(uname -o 2>/dev/null || uname -s | to lower)"
 
   local file f
