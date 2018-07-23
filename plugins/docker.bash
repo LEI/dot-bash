@@ -51,7 +51,7 @@ d-clean() {
   local dangling=
   shift
   case "$cmd" in # d i | awk '/<none>/ {print $3}/'
-    ''|images) dangling="$(d dangling)"; if [[ -n "$dangling" ]]; then docker rmi $dangling "$@"; fi ;;
+    ''|i|images) dangling="$(d dangling)"; if [[ -n "$dangling" ]]; then docker rmi $dangling "$@"; fi ;;
     # created) docker rm $(docker ps --all | awk '/Created \([0-9]+\)/ {print $1}') ;;
     exited) docker rm $(docker ps --all | awk '/Exited \([0-9]+\)/ {print $1}') ;;
     *) return 1 ;;
