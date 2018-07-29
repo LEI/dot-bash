@@ -18,7 +18,7 @@ role:
   #   - readline
   link:
     - ".inputrc"
-    - "bin:bin"
+    - "bin/*:bin"
     - "*.bash:.bash.d"
     - "aliases:.bash.d"
     - "environment:.bash.d"

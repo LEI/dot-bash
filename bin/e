@@ -1,13 +1,21 @@
-#!/usr/bin/env bash
+#!/bin/sh
+
+# Usage: e [<path>]
+# Quick shortcut to an editor
+# e: opens the current directory in your editor
+# e /usr/local: opens the specified directory in your editor
+
+if [ -z "$EDITOR" ]; then
+  >&2 printf '%s\n' "EDITOR is undefined"
+  return 1
+fi
 
 e() {
-  if [[ -z "$EDITOR" ]]; then
-    >&2 printf "%s" "EDITOR is undefined"
-    return 1
-  fi
-  if [[ $# -ne 0 ]]; then
+  if [ $# -ne 0 ]; then
     $EDITOR "$@"
   else
     $EDITOR .
   fi
 }
+
+[[ "$0" == "$BASH_SOURCE" ]] && e "$@"
