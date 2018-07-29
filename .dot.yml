@@ -3,6 +3,7 @@ role:
   pkg:
     - bash
     - bash-completion
+    # - curl
     - tree
     - name: fzf
       os: ["darwin"]
@@ -11,6 +12,7 @@ role:
       os: ["!debian"]
       # os: ["archlinux", "darwin"]
     - unzip
+    # - wget
   # pkg_android: # termux
   #   - busybox
   #   - ca-certificates
