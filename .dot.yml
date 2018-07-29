@@ -6,6 +6,11 @@ role:
     - tree
     - name: fzf
       os: ["darwin"]
+    # - gzip
+    - name: unrar # non-free
+      os: ["!debian"]
+      # os: ["archlinux", "darwin"]
+    - unzip
   # pkg_android: # termux
   #   - busybox
   #   - ca-certificates
