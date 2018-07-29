@@ -7,9 +7,9 @@ alias sudo="sudo "
 
 # alias df="df -ah" # -T --total # pydf
 # alias du="du -ach | sort -h" # ncdu
-alias cp="cp -v" # -i
-alias ln="ln -v" # -i
-alias mv="mv -v" # -i
+alias cp="cp -v"
+alias ln="ln -v"
+alias mv="mv -v"
 alias rm="rm -v"
 alias wget="wget -c"
 
