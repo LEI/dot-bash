@@ -16,7 +16,7 @@ for dir in {/usr/local/opt/fzf,~/.config/fzf,~/.fzf}; do
 done
 
 if hash ag 2>/dev/null; then
-  export FZF_DEFAULT_COMMAND='ag --nocolor -g ""'
+  export FZF_DEFAULT_COMMAND='ag --hidden --ignore .git -g ""' # --nocolor
 else
   export FZF_DEFAULT_COMMAND='(git ls-tree -r --name-only HEAD ||
     find . -path "*/\.*" -prune -o -type f -print -o -type l -print |
