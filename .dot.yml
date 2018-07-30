@@ -36,4 +36,4 @@ role:
     ".bash_profile": "[[ -f ~/.bash.d/init.bash ]] && source ~/.bash.d/init.bash"
   post_install:
     # Quickfix archlinux
-    - "if test -f ~/.bash_profile; then sed -i '/^[[ -f ~\/.bashrc ]] && . ~\/.bashrc$/d' ~/.bash_profile; fi"
+    - "if test -f ~/.bash_profile; then sed -i '/^[[ -f ~\\/.bashrc ]] && . ~\\/.bashrc$/d' ~/.bash_profile; fi"
