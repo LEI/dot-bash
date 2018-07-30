@@ -9,9 +9,11 @@ set -o noclobber
 # Automatically trim long paths in the prompt, requires ((BASH_VERSINFO[0] < 4))
 #PROMPT_DIRTRIM=2
 
+# FIXME bind: warning: line editing not enabled
+
 # Enable history expansion with space
 # E.g. typing !!<space> will replace the !! with your last command
-bind Space:magic-space
+#bind Space:magic-space
 
 # # Perform file completion in a case insensitive fashion
 # bind "set completion-ignore-case on"
