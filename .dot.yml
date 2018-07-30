@@ -34,3 +34,5 @@ role:
   line: # FIXME: check if ~/.bashrc is already sourced from ~/.bash_profile
     ".bashrc": "[[ -n \"$PS1\" ]] && [[ -f ~/.bash_profile ]] && source ~/.bash_profile"
     ".bash_profile": "[[ -f ~/.bash.d/init.bash ]] && source ~/.bash.d/init.bash"
+  post_install:
+    - "if test -f ~/.bash_profile; then sed '#[[ -f ~/.bashrc ]] && . ~/.bashrc#d' ~/.bash_profile; fi"
