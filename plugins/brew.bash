@@ -7,5 +7,5 @@ fi
 # Disable Google Analytics
 HOMEBREW_NO_ANALYTICS=1
 
-# Change default location of Homebrew Cask applications
-#HOMEBREW_CASK_OPTS="--appdir=/Applications" #--caskroom=/etc/Caskroom
+# Change default locations
+# HOMEBREW_CASK_OPTS="--appdir=~/Applications --fontdir=/Library/Fonts
