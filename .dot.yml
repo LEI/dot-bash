@@ -10,7 +10,7 @@ role:
     # - gzip
     - name: unrar # non-free
       os: ["!debian"]
-      # os: ["archlinux", "darwin"]
+      # os: ["arch", "darwin"]
     - unzip
     # - wget
   # pkg_android: # termux
@@ -35,5 +35,5 @@ role:
     ".bashrc": "[[ -n \"$PS1\" ]] && [[ -f ~/.bash_profile ]] && source ~/.bash_profile"
     ".bash_profile": "[[ -f ~/.bash.d/init.bash ]] && source ~/.bash.d/init.bash"
   post_install:
-    # Quickfix archlinux
+    # Quickfix arch default ~/.bash_profile
     - "if test -f ~/.bash_profile; then sed -i '/[[ -f ~\\/.bashrc ]] && . ~\\/.bashrc/d' ~/.bash_profile; fi"
