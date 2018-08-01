@@ -1,7 +1,8 @@
 ---
 role:
   pkg:
-    - bash
+    - name: bash
+      action: install
     - bash-completion
     # - curl
     - tree
