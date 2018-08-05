@@ -46,6 +46,8 @@ d-all() {
   esac
 }
 
+# docker-cleanup
+# https://github.com/spotify/docker-gc
 d-clean() {
   local cmd="$1"
   local dangling=
