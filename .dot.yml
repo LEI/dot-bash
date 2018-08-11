@@ -1,5 +1,8 @@
 ---
 role:
+  dir:
+    - bin
+    - .bash.d
   pkg:
     - name: bash
       action: install
