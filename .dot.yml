@@ -13,7 +13,7 @@ role:
       os: ["darwin"]
     # - gzip
     - name: unrar # non-free
-      os: ["!debian"]
+      os: ["!centos", "!debian"]
       # os: ["arch", "darwin"]
     - unzip
     # - wget
