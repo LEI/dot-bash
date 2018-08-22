@@ -7,7 +7,8 @@ role:
     - name: bash
       action: install
       os: ["!windows"]
-    - bash-completion
+    - name:bash-completion
+      os: ["!windows"]
     # - curl
     - name: tree # required by pass
       action: install
