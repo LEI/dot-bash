@@ -10,8 +10,9 @@ role:
     - name: bash-completion
       os: ["!windows"]
     # - curl
-    - name: tree # required by pass
-      action: install
+    - name: tree
+      action: install # required by pass
+      os: ["!windows"]
     - name: fzf
       os: ["darwin"]
     # - gzip
