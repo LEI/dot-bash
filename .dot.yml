@@ -6,13 +6,10 @@ role:
   pkg:
     - name: bash
       action: install
-      os: ["!windows"]
-    - name: bash-completion
-      os: ["!windows"]
+    - bash-completion
     # - curl
     - name: tree
       action: install # required by pass
-      os: ["!windows"]
     - name: fzf
       os: ["darwin"]
     # - gzip
@@ -47,4 +44,7 @@ role:
     # Quickfix arch # test -f ~/.bash_profile
     - command: "sed -i '/[[ -f ~\\/.bashrc ]] && . ~\\/.bashrc/d' $DOT_TARGET/.bash_profile"
       if: "grep '[[ -f ~/.bashrc ]] && . ~/.bashrc' $DOT_TARGET/.bash_profile"
-
+    # Switch to using brew-installed bash as default shell
+    - command: "echo '/usr/local/bin/bash' | sudo tee -a /etc/shells; chsh -s /usr/local/bin/bash"
+      if: "! fgrep -q '/usr/local/bin/bash' /etc/shells"
+      os: darwin
