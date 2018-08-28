@@ -39,9 +39,12 @@ role:
     - "environment:.bash.d"
     - "functions:.bash.d"
     - "plugins:.bash.d"
-  line: # FIXME: check if ~/.bashrc is already sourced from ~/.bash_profile
+  line:
     ".bashrc": "[[ -n \"$PS1\" ]] && [[ -f ~/.bash_profile ]] && source ~/.bash_profile"
     ".bash_profile": "[[ -f ~/.bash.d/init.bash ]] && source ~/.bash.d/init.bash"
   post_install:
-    # Quickfix arch default ~/.bash_profile
-    - "if test -f ~/.bash_profile; then sed -i '/[[ -f ~\\/.bashrc ]] && . ~\\/.bashrc/d' ~/.bash_profile; fi"
+    # FIXME: check if ~/.bashrc is already sourced from ~/.bash_profile
+    # Quickfix arch # test -f ~/.bash_profile
+    - command: "sed -i '/[[ -f ~\\/.bashrc ]] && . ~\\/.bashrc/d' $DOT_TARGET/.bash_profile"
+      if: "grep '[[ -f ~/.bashrc ]] && . ~/.bashrc' $DOT_TARGET/.bash_profile"
+
