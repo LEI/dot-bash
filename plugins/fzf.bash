@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-if ! hash fzf 2>/dev/null; then
+if ! hash fzf 2>/dev/null && [[ ! -d ~/.fzf ]]; then
   return
 fi
 
