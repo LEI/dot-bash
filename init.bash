@@ -4,30 +4,29 @@ BASH_DIR="$HOME/.bash.d"
 
 load() {
   local path
-  for path in "$@"
-  do
+  for path in "$@"; do
     if [[ -d "$path" ]]; then
       load "$path"/*
     elif [[ -r "$path" ]] && [[ -f "$path" ]]; then # || [[ -L "$f" ]]
       source "$path"
-    # else
-    #   >&2 printf "%s\n" "$path: No such file or directory"
+      # else
+      #   >&2 printf "%s\n" "$path: No such file or directory"
     fi
   done
 }
 
 main() {
   local option
-  for option in autocd cdspell checkwinsize cmdhist dirspell extglob globstar histappend nocaseglob
-  do shopt -s "$option" 2> /dev/null
+  for option in autocd cdspell checkwinsize cmdhist dirspell extglob globstar histappend nocaseglob; do
+    shopt -s "$option" 2>/dev/null
   done
 
   load "$BASH_DIR"/{defaults,aliases/*,functions/*,environment/*,completion,colors,prompt}.bash
   # OS="$(uname -o 2>/dev/null || uname -s | to lower)"
 
   local file f
-  for file in $BASH_DIR/plugins/*.bash
-  do f="${file##*/}"
+  for file in $BASH_DIR/plugins/*.bash; do
+    f="${file##*/}"
     hash "${f%.bash}" 2>/dev/null && load "$file"
   done
 
