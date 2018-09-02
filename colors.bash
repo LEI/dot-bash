@@ -2,7 +2,7 @@
 
 # https://github.com/Bash-it/bash-it/blob/master/themes/colors.theme.bash
 
-if tput setaf 1 &> /dev/null; then
+if tput setaf 1 &>/dev/null; then
   reset="$(tput sgr0)"
 
   bold="$(tput bold)"

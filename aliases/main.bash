@@ -37,7 +37,7 @@ alias ....="cd ../../.."
 alias .....="cd ../../../.."
 alias -- -="cd -"
 
-for method in GET HEAD POST PUT DELETE TRACE OPTIONS
-do alias $method="lwp-request -m '$method'"
+for method in GET HEAD POST PUT DELETE TRACE OPTIONS; do
+  alias $method="lwp-request -m '$method'"
 done
 unset method

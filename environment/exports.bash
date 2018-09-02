@@ -11,7 +11,7 @@ fi
 export EDITOR
 export VISUAL="$EDITOR"
 
-export HISTSIZE=500000 # 32768
+export HISTSIZE=500000     # 32768
 export HISTFILESIZE=100000 # "${HISTSIZE}"
 export HISTCONTROL="erasedups:ignoreboth"
 # export HISTIGNORE="&:[ ]*:exit:ls:bg:fg:history:clear"

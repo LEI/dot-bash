@@ -14,7 +14,10 @@ to() {
   case "$1" in
     lower) tr "[:upper:]" "[:lower:]" ;;
     upper) tr "[:lower:]" "[:upper:]" ;;
-    *) >&2 printf "%s\n" "to: $1: illegal option"; return 1 ;;
+    *)
+      printf >&2 "%s\n" "to: $1: illegal option"
+      return 1
+      ;;
   esac
 }
 

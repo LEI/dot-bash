@@ -6,7 +6,7 @@
 # e /usr/local: opens the specified directory in your editor
 
 if [[ -z "$EDITOR" ]]; then
-  >&2 printf '%s\n' "EDITOR is undefined"
+  printf >&2 '%s\n' "EDITOR is undefined"
   return 1
 fi
 

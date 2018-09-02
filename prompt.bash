@@ -46,7 +46,7 @@ __prompt_string() {
 
   p+='\[${reset}\]'
   # Highlight the user when logged in as root
-  if [[ "${USER}" = "root" ]]; then
+  if [[ "${USER}" == "root" ]]; then
     p+='\[${red}\]'
   else
     p+='\[${blue}\]'
@@ -108,8 +108,7 @@ __prompt_git() {
   local line=
   local branch_info=
   local count=0
-  while IFS= read -r -d '' line
-  do
+  while IFS= read -r -d '' line; do
     case "${line:0:2}" in
       \#\#) branch_info="${line#\#\# }" ;;
       *) ((count++)) ;;
@@ -125,8 +124,7 @@ __prompt_git() {
   local behind ahead
   local pattern=
   local var=
-  for var in {ahead,behind}
-  do
+  for var in {ahead,behind}; do
     ## [ahead x, behind y]
     pattern='(\[|[[:space:]])'${var}'[[:space:]]+([[:digit:]])(,|\])'
     if [[ "$branch_info" =~ $pattern ]]; then
@@ -146,7 +144,7 @@ __prompt_git() {
   if [[ "$branch_info" =~ \.\.\. ]]; then
     branch="${branch_info%\.\.\.*}"
     branch="${branch##* }"
-  elif [[ "$branch_info" = "HEAD (no branch)" ]]; then
+  elif [[ "$branch_info" == "HEAD (no branch)" ]]; then
     branch="$short_sha"
   else
     branch="$branch_info"

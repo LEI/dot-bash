@@ -14,22 +14,22 @@ d() {
   shift
   local last_id="docker ps --latest --quiet"
   case "$cmd" in
-    ''|a|pa|psa) docker ps --all ;; # List all containers
+    '' | a | pa | psa) docker ps --all ;; # List all containers
     *-all) d-all "${cmd%-all}" "$@" ;;
     b) docker build -t "$1" "${2:-.}" "${@:3}" ;;
-    bash|sh) d-exec "${1:-$($last_id)}" "$cmd" "${@:2}" ;;
-    c|compose) d-compose "$@" ;;
+    bash | sh) d-exec "${1:-$($last_id)}" "$cmd" "${@:2}" ;;
+    c | compose) d-compose "$@" ;;
     clean) d-clean "$@" ;;
     dangling) docker images --all --quiet --filter "dangling=${1:-true}" "${@:2}" ;;
     e) d-exec "${1:-$($last_id)}" "$2" "${@:3}" ;;
     e:*) d-exec "${1:-$($last_id)}" "${cmd#e:}" "${@:2}" ;;
     env) d-env "$@" ;; # env | grep DOCKER_
-    i|img) docker images "$@" ;; # --format "table {{.ID}}\t{{.Repository}}\t{{.Tag}}\t{{.CreatedSince}}\t{{.Size}}"
+    i | img) docker images "$@" ;; # --format "table {{.ID}}\t{{.Repository}}\t{{.Tag}}\t{{.CreatedSince}}\t{{.Size}}"
     id) docker ps --all --quiet --filter "name=$1" "${@:2}" ;;
     ip) d-ip "${1:-$($last_id)}" "${@:2}" ;;
     l) docker logs --follow --timestamps "$@" ;; # --since, --tail=all
     last) $last_id "$@" ;; # Latest container ID (ps -lq)
-    m|machine) d-machine "$@" ;;
+    m | machine) d-machine "$@" ;;
     p) docker pull "$@" ;; # --all-tags
     r) d-run "$@" ;; # "$c" "${2:-/app}" "${3:-$PWD}"
     *) docker "$cmd" "$@" ;;
@@ -40,9 +40,9 @@ d-all() {
   local cmd="$1"
   shift
   case "$cmd" in
-    ''|ps) docker ps --all "$@" ;;
+    '' | ps) docker ps --all "$@" ;;
     rmi) docker rmi $(docker images --quiet) "$@" ;;
-    rm|start|stop|*) docker "$cmd" $(docker ps --all --quiet) "$@" ;;
+    rm | start | stop | *) docker "$cmd" $(docker ps --all --quiet) "$@" ;;
   esac
 }
 
@@ -53,7 +53,10 @@ d-clean() {
   local dangling=
   shift
   case "$cmd" in # d i | awk '/<none>/ {print $3}/'
-    ''|i|images) dangling="$(d dangling)"; if [[ -n "$dangling" ]]; then docker rmi $dangling "$@"; fi ;;
+    '' | i | images)
+      dangling="$(d dangling)"
+      if [[ -n "$dangling" ]]; then docker rmi $dangling "$@"; fi
+      ;;
     # created) docker rm $(docker ps --all | awk '/Created \([0-9]+\)/ {print $1}') ;;
     exited) docker rm $(docker ps --all | awk '/Exited \([0-9]+\)/ {print $1}') ;;
     *) return 1 ;;
@@ -65,8 +68,8 @@ d-env() {
     d-machine env "$@"
   else
     local v
-    for v in "${!DOCKER_@}"
-    do printf "%s=\"%s\"\n" "$v" "${!v}"
+    for v in "${!DOCKER_@}"; do
+      printf "%s=\"%s\"\n" "$v" "${!v}"
     done
   fi
 }
@@ -123,15 +126,15 @@ d-run() {
   shift
   local d="${1:-$(pwd)}"
   shift
-  [[ -n "$i" ]] && [[ -n "$v" ]] \
-    && docker run \
+  [[ -n "$i" ]] && [[ -n "$v" ]] &&
+    docker run \
       --interactive --tty --rm \
       --volume "$d:$v" \
       --workdir "$v" \
       "$i" "$@"
-      # --name "${1:-${v##*/}}"
-      # --user $(id -u):$(id -g)
-      # --publish 80:80
+  # --name "${1:-${v##*/}}"
+  # --user $(id -u):$(id -g)
+  # --publish 80:80
 }
 
 if hash _docker 2>/dev/null; then

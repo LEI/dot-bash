@@ -7,7 +7,7 @@ if ! hash composer 2>/dev/null; then
 fi
 
 # pathmunge "$(composer config -g home)/$(composer config -g bin-dir)" after
-COMPOSER_HOME="$(composer config -g home 2>/dev/null)" # ~/.composer
+COMPOSER_HOME="$(composer config -g home 2>/dev/null)"       # ~/.composer
 COMPOSER_BIN_DIR="$(composer config -g bin-dir 2>/dev/null)" # vendor/bin
 
 if [[ -d "$COMPOSER_HOME/$COMPOSER_BIN_DIR" ]]; then
