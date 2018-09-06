@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-c.f. ~/.exports
+# c.f. ~/.exports
 
 # CDPATH="."
 

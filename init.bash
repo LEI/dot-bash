@@ -45,6 +45,10 @@ main() {
     shopt -s "$option" 2>/dev/null
   done
 
+  if [[ -f ~/.exports ]]; then
+    source ~/.exports
+  fi
+
   load "$BASH_DIR"/{defaults,aliases/*,functions/*,environment/*,completion,colors,prompt}.bash
   # OS="$(uname -o 2>/dev/null || uname -s | to lower)"
 
