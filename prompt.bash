@@ -9,19 +9,25 @@ __prompt_command() {
     EXIT_COLOR="${red}"
   fi
 
+  # # Right align prompt
+  # # https://superuser.com/a/1203400/724216
+  # PS1R=
+  # if hash porcelain 2>/dev/null; then
+  #   # PS1R+="$(porcelain '\[${red}\]%s\[${reset}\]' '\[${yellow}\]%s\[${reset}\]' '\[${green}\]%s\[${reset}\]')"
+  #   PS1R+="$(porcelain)"
+  # fi
+  # if [[ -n "$PS1R" ]]; then
+  #   # Strip ANSI commands before counting length
+  #   PS1R=$(sed "s,\x1B\[[0-9;]*[a-zA-Z],,g" <<<"$PS1R")
+  # fi
+
   # # Record each line as it gets issued
   # history -a
 }
 
 __prompt_right() {
   local width
-
-  if [[ -n "$COLUMNS" ]]; then
-    width="$COLUMNS"
-  else
-    width="$(tput cols)"
-  fi
-
+  width="${COLUMNS:-$(tput cols)}"
   printf "%*s\r" "$width" "$1"
 }
 
@@ -29,7 +35,13 @@ __prompt_string() {
   local prompt_symbol="${1:-\$ }"
   local p
 
-  p='\n'
+  # p='\n'
+
+  # Reference: https://en.wikipedia.org/wiki/ANSI_escape_code
+  # '\e[s' # Save cursor position
+  # '\e[u' # Restore cursor to save point
+  # p='\[\e[s\e[${COLUMNS:-$(tput cols)}C\e[${#PS1R}D${PS1R}\e[u\]'
+  # p='\[$(tput sc; printf "%*s\r" "${COLUMNS:-$(tput cols)}" "$PS1R"; tput rc)\]'
 
   # Update the terminal title
   # Tmux? \033k\w\033\\
@@ -37,8 +49,11 @@ __prompt_string() {
   # p+='\[\033]0;\w\007\]'
   p+='\[\e]2;\w\a\]'
 
-  # Right align the time
-  # p+='\[$(tput sc; __prompt_right "\t"; tput rc)\]'
+  # # Right align prompt
+  # if hash porcelain; then
+  #   git_status='$(porcelain "\[${red}\]%s\[${reset}\]" "\[${yellow}\]%s\[${reset}\]" "\[${green}\]%s\[${reset}\]")'
+  #   p+='\[$(tput sc; __prompt_right '"$git_status"'; tput rc)\]'
+  # fi
 
   # printf "%*(%T)T\r" "$width"
   # p+='\[$(tput sc; printf "%*s\r" "$width" "$(date +%T)"; tput rc)\]'
