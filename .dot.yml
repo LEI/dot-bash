@@ -26,11 +26,9 @@ role:
   #   - ncurses-utils
   #   - readline
   dir:
-    - bin
     - .bash.d
   link:
     - ".inputrc"
-    - "bin/*:bin"
     - "*.bash:.bash.d"
     - "aliases:.bash.d"
     - "environment:.bash.d"
