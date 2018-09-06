@@ -1,21 +1,19 @@
-#!/usr/bin/env bash
+#!/bin/sh
 
 # Usage: e [<path>]
-# Quick shortcut to an editor
+# Quick shortcut to the program specified by VISUAL or EDITOR
 # e: opens the current directory in your editor
-# e /usr/local: opens the specified directory in your editor
+# e <path>: opens the specified directory in your editor
 
-if [[ -z "$EDITOR" ]]; then
-  printf >&2 '%s\n' "EDITOR is undefined"
-  return 1
+bin="${VISUAL:-$EDITOR}"
+
+if [ -z "$bin" ]; then
+  printf >&2 '%s\n' "EDITOR is empty or not set"
+  exit 1
 fi
 
-e() {
-  if [[ $# -ne 0 ]]; then
-    $EDITOR "$@"
-  else
-    $EDITOR .
-  fi
-}
-
-[[ "$0" == "$BASH_SOURCE" ]] && e "$@"
+if [ $# -ne 0 ]; then
+  $bin "$@"
+else
+  $bin .
+fi

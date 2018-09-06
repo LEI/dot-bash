@@ -1,8 +1,5 @@
 ---
 role:
-  dir:
-    - bin
-    - .bash.d
   pkg:
     - name: bash
       action: install
@@ -28,6 +25,9 @@ role:
   #   - man
   #   - ncurses-utils
   #   - readline
+  dir:
+    - bin
+    - .bash.d
   link:
     - ".inputrc"
     - "bin/*:bin"
