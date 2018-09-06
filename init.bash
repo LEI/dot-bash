@@ -15,44 +15,25 @@ load() {
   done
 }
 
-# Requires functions/pathmunge.bash
-load_path() {
-  if [ -f ~/.path ]; then
-    while read -r path; do
-      case "$path" in
-        # Skip empty lines
-        "") continue ;;
-        # Ignore comments
-        \#*) continue ;;
-        # Strip end of line comments
-        *\ \#*) path="${path% #*}" ;;
-        # Simulate home expansion
-        ~*) path="$HOME/${path#\~}" ;;
-      esac
-      if [ -d "$path" ]; then
-        pathmunge "$path" after
-      else
-        # TODO: indicate line number
-        echo >&2 "$path: invalid directory found in ~/.path"
-      fi
-    done <~/.path
-  fi
-}
-
 main() {
   local option
   for option in autocd cdspell checkwinsize cmdhist dirspell extglob globstar histappend nocaseglob; do
     shopt -s "$option" 2>/dev/null
   done
 
+  # Global environment variables
   if [[ -f ~/.exports ]]; then
     source ~/.exports
   fi
 
+  # Append to PATH
+  PATH="$PATH:$HOME/bin"
+  if [[ -f ~/.path ]]; then
+    load_path ~/.path
+  fi
+
   load "$BASH_DIR"/{defaults,aliases/*,functions/*,environment/*,completion,colors,prompt}.bash
   # OS="$(uname -o 2>/dev/null || uname -s | to lower)"
-
-  load_path
 
   local file f
   for file in "$BASH_DIR"/plugins/*.bash; do
