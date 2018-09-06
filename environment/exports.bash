@@ -1,15 +1,8 @@
 #!/usr/bin/env bash
 
+c.f. ~/.exports
+
 # CDPATH="."
-
-if hash nvim 2>/dev/null; then
-  EDITOR="nvim"
-else
-  EDITOR="vim -f"
-fi
-
-export EDITOR
-export VISUAL="$EDITOR"
 
 export HISTSIZE=500000     # 32768
 export HISTFILESIZE=100000 # "${HISTSIZE}"
