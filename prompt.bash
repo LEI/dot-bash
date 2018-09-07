@@ -13,12 +13,12 @@ __prompt_command() {
   # # https://superuser.com/a/1203400/724216
   # PS1R=
   # if hash porcelain 2>/dev/null; then
-  #   # PS1R+="$(porcelain '\[${red}\]%s\[${reset}\]' '\[${yellow}\]%s\[${reset}\]' '\[${green}\]%s\[${reset}\]')"
-  #   PS1R+="$(porcelain)"
+  #   PS1R+="$(porcelain '\[${red}\]%s\[${reset}\]' '\[${yellow}\]%s\[${reset}\]' '\[${green}\]%s\[${reset}\]')"
+  #   # PS1R+="$(porcelain)"
   # fi
   # if [[ -n "$PS1R" ]]; then
   #   # Strip ANSI commands before counting length
-  #   PS1R=$(sed "s,\x1B\[[0-9;]*[a-zA-Z],,g" <<<"$PS1R")
+  #   PS1R_stripped=$(sed "s,\x1B\[[0-9;]*[a-zA-Z],,g" <<<"$PS1R")
   # fi
 
   # # Record each line as it gets issued
@@ -37,11 +37,11 @@ __prompt_string() {
 
   # p='\n'
 
-  # Reference: https://en.wikipedia.org/wiki/ANSI_escape_code
-  # '\e[s' # Save cursor position
-  # '\e[u' # Restore cursor to save point
-  # p='\[\e[s\e[${COLUMNS:-$(tput cols)}C\e[${#PS1R}D${PS1R}\e[u\]'
-  # p='\[$(tput sc; printf "%*s\r" "${COLUMNS:-$(tput cols)}" "$PS1R"; tput rc)\]'
+  # # Reference: https://en.wikipedia.org/wiki/ANSI_escape_code
+  # # '\e[s' # Save cursor position
+  # # '\e[u' # Restore cursor to save point
+  # p='\[\e[s\e[${COLUMNS:-$(tput cols)}C\e[${#PS1R_stripped}D${PS1R}\e[u\]'
+  # # p='\[$(tput sc; printf "%*s\r" "${COLUMNS:-$(tput cols)}" "$PS1R"; tput rc)\]'
 
   # Update the terminal title
   # Tmux? \033k\w\033\\
