@@ -27,9 +27,9 @@ main() {
   fi
 
   # Append to PATH
-  PATH="$PATH:$HOME/bin"
+  # PATH="$PATH:$HOME/bin"
   if [[ -f ~/.path ]]; then
-    load_path ~/.path
+    source "$HOME"/bin/load_path ~/.path
   fi
 
   load "$BASH_DIR"/{defaults,aliases/*,functions/*,environment/*,completion,colors,prompt}.bash
