@@ -7,6 +7,6 @@ if [[ -f ~/.aliases ]]; then
   source ~/.aliases
 fi
 
-alias reload="source ~/.bashrc"
+alias reloadrc="source ~/.bashrc"
 
 alias sudo="sudo "
