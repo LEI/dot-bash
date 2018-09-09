@@ -27,6 +27,7 @@ main() {
 
   # [[ -z "$PS1" ]] && PS1='\u at \h in \w\n\$ '
   PROMPT_COMMAND="__prompt_command '›'" # $ ✓ → ×
+  PROMPT_DIRTRIM="${PROMPT_DIRTRIM:-3}"
   PS1="$(__prompt_string)"
   PS2="${PROMPT_SYMBOL:->} "
 
