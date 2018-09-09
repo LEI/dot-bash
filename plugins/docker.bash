@@ -15,28 +15,28 @@ d() {
   local last_id="docker ps --latest --quiet"
   case "$cmd" in
     '' | a | pa | psa) docker ps --all ;; # List all containers
-    *-all) d-all "${cmd%-all}" "$@" ;;
+    *-all) d_all "${cmd%-all}" "$@" ;;
     b) docker build -t "$1" "${2:-.}" "${@:3}" ;;
-    bash | sh) d-exec "${1:-$($last_id)}" "$cmd" "${@:2}" ;;
-    c | compose) d-compose "$@" ;;
-    clean) d-clean "$@" ;;
+    bash | sh) d_exec "${1:-$($last_id)}" "$cmd" "${@:2}" ;;
+    c | compose) d_compose "$@" ;;
+    clean) d_clean "$@" ;;
     dangling) docker images --all --quiet --filter "dangling=${1:-true}" "${@:2}" ;;
-    e) d-exec "${1:-$($last_id)}" "$2" "${@:3}" ;;
-    e:*) d-exec "${1:-$($last_id)}" "${cmd#e:}" "${@:2}" ;;
-    env) d-env "$@" ;; # env | grep DOCKER_
+    e) d_exec "${1:-$($last_id)}" "$2" "${@:3}" ;;
+    e:*) d_exec "${1:-$($last_id)}" "${cmd#e:}" "${@:2}" ;;
+    env) d_env "$@" ;; # env | grep DOCKER_
     i | img) docker images "$@" ;; # --format "table {{.ID}}\t{{.Repository}}\t{{.Tag}}\t{{.CreatedSince}}\t{{.Size}}"
     id) docker ps --all --quiet --filter "name=$1" "${@:2}" ;;
-    ip) d-ip "${1:-$($last_id)}" "${@:2}" ;;
+    ip) d_ip "${1:-$($last_id)}" "${@:2}" ;;
     l) docker logs --follow --timestamps "$@" ;; # --since, --tail=all
     last) $last_id "$@" ;; # Latest container ID (ps -lq)
-    m | machine) d-machine "$@" ;;
+    m | machine) d_machine "$@" ;;
     p) docker pull "$@" ;; # --all-tags
-    r) d-run "$@" ;; # "$c" "${2:-/app}" "${3:-$PWD}"
+    r) d_run "$@" ;; # "$c" "${2:-/app}" "${3:-$PWD}"
     *) docker "$cmd" "$@" ;;
   esac
 }
 
-d-all() {
+d_all() {
   local cmd="$1"
   shift
   case "$cmd" in
@@ -48,7 +48,7 @@ d-all() {
 
 # docker-cleanup
 # https://github.com/spotify/docker-gc
-d-clean() {
+d_clean() {
   local cmd="$1"
   local dangling=
   shift
@@ -63,9 +63,9 @@ d-clean() {
   esac
 }
 
-d-env() {
+d_env() {
   if [[ $# -ne 0 ]]; then
-    d-machine env "$@"
+    d_machine env "$@"
   else
     local v
     for v in "${!DOCKER_@}"; do
@@ -74,19 +74,19 @@ d-env() {
   fi
 }
 
-d-exec() {
+d_exec() {
   # local c="$(d id "$1" || docker ps -lq)"
   [[ -n "$1" ]] && docker exec --interactive --tty \
     "$1" "${2:-bash}" "${@:3}"
 }
 
-d-ip() {
+d_ip() {
   [[ -n "$1" ]] && docker inspect \
     --format "{{.NetworkSettings.IPAddress}}" \
     "$1" "${@:2}"
 }
 
-d-compose() {
+d_compose() {
   # hash docker-compose 2>/dev/null || return 1
   local cmd="$1"
   shift
@@ -100,7 +100,7 @@ d-compose() {
   esac
 }
 
-d-machine() {
+d_machine() {
   # hash docker-machine 2>/dev/null || return 1
   local cmd="$1"
   shift
@@ -118,8 +118,8 @@ d-machine() {
 # Deamonized: docker run -d -P <img> <cmd>
 # Interactive: docker run -i -t -P <img> <cmd>
 
-# d-run <img> <vol> [<dir>] [args..]
-d-run() {
+# d_run <img> <vol> [<dir>] [args..]
+d_run() {
   local i="$1" # Image
   shift
   local v="${1:-/app}"
@@ -142,9 +142,9 @@ if hash _docker 2>/dev/null; then
 fi
 
 if hash _docker-compose 2>/dev/null; then
-  complete -F _docker-machine d-compose
+  complete -F _docker-machine d_compose
 fi
 
 if hash _docker-machine 2>/dev/null; then
-  complete -F _docker-machine d-machine
+  complete -F _docker-machine d_machine
 fi
