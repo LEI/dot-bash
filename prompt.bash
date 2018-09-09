@@ -92,7 +92,11 @@ __prompt_string() {
   #   p+='\[${reset}\]'
   # fi
   if [[ -n "$SSH_TTY" ]]; then
-    p+='\[${red}\]'
+    if [[ "$UID" -eq 0 ]]; then
+      p+='\[${red}\]'
+    else
+      p+='\[${dim}\]'
+    fi
     p+='\h'
     p+='\[${reset}\]'
     p+=' '
