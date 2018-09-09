@@ -4,6 +4,7 @@ __prompt_command() {
   local exit=$?
 
   # EXIT_CODE=$exit
+  EXIT_COLOR=
   if [[ "$exit" -ne 0 ]]; then
     EXIT_COLOR="${red}"
   fi
