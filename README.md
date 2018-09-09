@@ -1,9 +1,5 @@
 # dot-bash
 
-## Requirements
-
-- bash
-
 ## Manual installation
 
 Clone and change directory
