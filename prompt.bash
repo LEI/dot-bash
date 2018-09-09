@@ -9,10 +9,12 @@ __prompt_command() {
     EXIT_COLOR="${red}"
   fi
 
-  PROMPT_SYMBOL="${PROMPT_SYMBOL:-\$}"
+  PROMPT_SYMBOL="${1:-${PROMPT_SYMBOL:-\$}}"
   if [[ "$UID" -eq 0 ]]; then
-    PROMPT_SYMBOL="#"
+    PROMPT_SYMBOL="\$" # \#
   fi
+
+  GIT_STATUS_PORCELAIN="$(__prompt_git)"
 
   # # Right align prompt
   # # https://superuser.com/a/1203400/724216
@@ -109,9 +111,7 @@ __prompt_string() {
 
   # Git status
   # p+='$(__prompt_git "\[${dim}\] on \[${reset}\]%s%s")'
-  if hash porcelain 2>/dev/null; then
-    p+="$(__prompt_git)"
-  fi
+  p+='$GIT_STATUS_PORCELAIN'
 
   # p+='\n'
   p+=' '
@@ -124,7 +124,11 @@ __prompt_string() {
 }
 
 __prompt_git() {
-  echo '$(porcelain " \[${red}\]%s\[${reset}\]" " \[${yellow}\]%s\[${reset}\]" " \[${green}\]%s\[${reset}\]")'
+  if hash porcelain 2>/dev/null; then
+    # porcelain " \[${red}\]%s\[${reset}\]" " \[${yellow}\]%s\[${reset}\]" " \[${green}\]%s\[${reset}\]"
+    porcelain " ${red}%s${reset}" " ${yellow}%s${reset}" " ${green}%s${reset}"
+  fi
+
   # local exit=$?
   # local repo_info="$(git rev-parse --git-dir --is-inside-git-dir \
   #   --is-bare-repository --is-inside-work-tree \
