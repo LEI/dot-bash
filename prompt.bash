@@ -75,37 +75,29 @@ __set_prompt_string() {
   # ps+='\[$(tput sc; printf "%*s" "$width" "\t"; tput rc)\]'
 
   ps+='\[${reset}\]'
-  # # Highlight the user when logged in as root
-  # if [[ "${USER}" == "root" ]]; then
-  #   ps+='\[${red}\]'
-  # else
-  #   ps+='\[${blue}\]'
-  # fi
-  # ps+='\u'
-  # ps+='\[${reset}\]'
 
-  # # Display the host only if different of the user
+  # Display the host only if different of the user
   # if [[ "${USER}" != "${HOSTNAME%%.*}" ]]; then
-  #   ps+=' '
-  #   ps+='\[${dim}\]'
-  #   ps+='at'
-  #   ps+='\[${reset}\]'
-  #   ps+=' '
-  #   # Highlight when connected via SSH
-  #   if [[ -n "${SSH_TTY}" ]]; then
-  #     ps+='\[${red}\]'
-  #   else
-  #     ps+='\[${cyan}\]'
-  #   fi
-  #   ps+='\h'
-  #   ps+='\[${reset}\]'
   # fi
-  if [[ -n "$SSH_TTY" ]]; then
+
+  # Display the user when connected via SSH
+  # and highlight in red if logged in as root
+  if [[ -n "$SSH_TTY" ]] || [[ "$UID" -eq 0 ]]; then
     if [[ "$UID" -eq 0 ]]; then
       ps+='\[${red}\]'
-    else
-      ps+='\[${dim}\]'
     fi
+    ps+='\u'
+    ps+='\[${reset}\]'
+    if [[ -n "$SSH_TTY" ]]; then
+      ps+='\[${dim}\]@\[${reset}\]'
+    else
+      ps+=' '
+    fi
+  fi
+
+  # Display the host when connected via SSH
+  if [[ -n "$SSH_TTY" ]]; then
+    ps+='\[${dim}\]'
     ps+='\h'
     ps+='\[${reset}\]'
     ps+=' '
