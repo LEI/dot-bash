@@ -14,7 +14,7 @@ __prompt_command() {
     PROMPT_SYMBOL="\$" # \#
   fi
 
-  GIT_STATUS_PORCELAIN="$(__prompt_git)"
+  # GIT_STATUS_PORCELAIN="$(__prompt_git)"
 
   # # Right align prompt
   # # https://superuser.com/a/1203400/724216
@@ -111,7 +111,8 @@ __prompt_string() {
 
   # Git status
   # p+='$(__prompt_git "\[${dim}\] on \[${reset}\]%s%s")'
-  p+='$GIT_STATUS_PORCELAIN'
+  p+='$(__prompt_git)'
+  # p+='$GIT_STATUS_PORCELAIN'
 
   # p+='\n'
   p+=' '
