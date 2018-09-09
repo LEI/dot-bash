@@ -25,6 +25,10 @@ role:
   #   - man
   #   - ncurses-utils
   #   - readline
+  copy:
+    - source: https://raw.githubusercontent.com/LEI/porcelain/master/porcelain.sh
+      target: bin/porcelain
+      mode: 0755
   dir:
     - .bash.d
   link:
@@ -45,6 +49,3 @@ role:
     - command: 'echo /usr/local/bin/bash | sudo tee -a /etc/shells; chsh -s /usr/local/bin/bash'
       if: '! fgrep -q "/usr/local/bin/bash" /etc/shells && [ "$CI" != true ]'
       os: darwin
-    - url: https://raw.githubusercontent.com/LEI/porcelain/master/porcelain.sh
-      dest: $HOME/bin/porcelain
-      mode: 0755
