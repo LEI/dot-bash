@@ -89,7 +89,8 @@ __set_prompt_string() {
     ps+='\u'
     ps+='\[${reset}\]'
     if [[ -n "$SSH_TTY" ]]; then
-      ps+='\[${dim}\]@\[${reset}\]'
+      # Dark gray
+      ps+='\[${bight_green}\]@\[${reset}\]'
     else
       ps+=' '
     fi
@@ -97,7 +98,7 @@ __set_prompt_string() {
 
   # Display the host when connected via SSH
   if [[ -n "$SSH_TTY" ]]; then
-    # Use bright_green for a dimer color
+    # Gray
     ps+='\[${bright_yellow}\]'
     ps+='\h'
     ps+='\[${reset}\]'
