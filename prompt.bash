@@ -7,7 +7,7 @@ __prompt_command() {
   local exit=$?
 
   PS1_SYMBOL="${1:-${PROMPT_SYMBOL:-\$}}"
-  PS2_SYMBOL="${2:-${PROMPT2_SYMBOL:->}}" # %_
+  PS2_SYMBOL="${2:-${PROMPT2_SYMBOL:->}}" # FIXME %_>
   if [[ "$UID" -eq 0 ]]; then
     PS1_SYMBOL='\$' # \#
   fi
@@ -102,14 +102,6 @@ __set_prompt_string() {
     ps+='\[${reset}\]'
     ps+=' '
   fi
-
-  # Working directory
-  # ps+=' '
-  # ps+='\[${dim}\]'
-  # ps+='in'
-  # ps+='\[${reset}\]'
-  # ps+=' '
-  # # ps+='\[${bold}\]'
 
   ps+='\[${bright_blue}\]' # white
   ps+='\w'

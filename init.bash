@@ -25,12 +25,11 @@ main() {
     hash "${f%.bash}" 2>/dev/null && load "$file"
   done
 
-  # [[ -z "$PS1" ]] && PS1='\u at \h in \w\n\$ '
   PROMPT_COMMAND="__prompt_command ''" # $ ✓ → ×
   PROMPT_DIRTRIM="${PROMPT_DIRTRIM:-3}"
   __set_prompt_string "›" # "${PROMPT_SYMBOL:-›}"
-  PS1="${PROMPT:-\$ }"
-  PS2="${PROMPT2:-%_> }"
+  PS1="${PROMPT:-\u@\h \w \s-\v\$ }"
+  PS2="${PROMPT2:-> }"
 
   load "$HOME"/.bashrc.local
 }
