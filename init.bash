@@ -14,6 +14,7 @@ main() {
   fi
 
   # shellcheck disable=SC1090
+  source "$HOME"/bin/load
   load "$BASH_DIR"/{defaults,aliases/*,functions/*,environment/*,completion,colors,prompt}.bash
   # OS="$(uname -o 2>/dev/null || uname -s | to lower)"
 
