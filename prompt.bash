@@ -7,7 +7,7 @@ __prompt_command() {
   local exit=$?
 
   PS1_SYMBOL="${1:-${PROMPT_SYMBOL:-\$}}"
-  PS2_SYMBOL="${2:-${PROMPT2_SYMBOL:->}}" # FIXME %_>
+  PS2_SYMBOL="${2:-${PROMPT2_SYMBOL:-${PROMPT_SYMBOL:->}}}"
   if [[ "$UID" -eq 0 ]]; then
     PS1_SYMBOL='\$' # \#
   fi
