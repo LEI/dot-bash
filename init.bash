@@ -2,36 +2,20 @@
 
 BASH_DIR="$HOME/.bash.d"
 
-load() {
-  local path
-  for path in "$@"; do
-    if [[ -d "$path" ]]; then
-      load "$path"/*
-    elif [[ -r "$path" ]] && [[ -f "$path" ]]; then # || [[ -L "$f" ]]
-      source "$path"
-      # else
-      #   >&2 printf "%s\n" "$path: No such file or directory"
-    fi
-  done
-}
-
 main() {
   local option
   for option in autocd cdspell checkwinsize cmdhist dirspell extglob globstar histappend nocaseglob; do
     shopt -s "$option" 2>/dev/null
   done
 
-  # Global environment variables
-  if [[ -f ~/.exports ]]; then
-    source ~/.exports
+  # Only if .bash_profile exists!
+  if [[ -f ~/.profile ]]; then
+    # shellcheck disable=SC1090
+    source ~/.profile
   fi
 
-  # Append to PATH
-  # PATH="$PATH:$HOME/bin"
-  if [[ -f ~/.path ]]; then
-    source "$HOME"/bin/load_path ~/.path
-  fi
-
+  # shellcheck disable=SC1090
+  source "$HOME"/bin/load
   load "$BASH_DIR"/{defaults,aliases/*,functions/*,environment/*,completion,colors,prompt}.bash
   # OS="$(uname -o 2>/dev/null || uname -s | to lower)"
 
@@ -51,3 +35,4 @@ main() {
 }
 
 main "$@"
+unset main

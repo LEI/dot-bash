@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# c.f. load_path ~/.path
+# c.f. $HOME/bin/load_path
 
 # # Append ~/bin
 # if [[ -d "$HOME/bin" ]]; then
