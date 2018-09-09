@@ -8,14 +8,12 @@ main() {
     shopt -s "$option" 2>/dev/null
   done
 
-  # Only if .bash_profile exists!
-  if [[ -f ~/.profile ]]; then
+  if [[ -f ~/.sh_profile ]]; then
     # shellcheck disable=SC1090
-    source ~/.profile
+    source ~/.sh_profile
   fi
 
   # shellcheck disable=SC1090
-  source "$HOME"/bin/load
   load "$BASH_DIR"/{defaults,aliases/*,functions/*,environment/*,completion,colors,prompt}.bash
   # OS="$(uname -o 2>/dev/null || uname -s | to lower)"
 
