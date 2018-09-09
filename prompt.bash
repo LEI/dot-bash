@@ -97,15 +97,16 @@ __set_prompt_string() {
 
   # Display the host when connected via SSH
   if [[ -n "$SSH_TTY" ]]; then
-    ps+='\[${dim}\]'
+    # Use bright_green for a dimer color
+    ps+='\[${bright_yellow}\]'
     ps+='\h'
     ps+='\[${reset}\]'
     ps+=' '
   fi
 
-  ps+='\[${bright_blue}\]' # white
+  # ps+='\[${bright_blue}\]' # white
   ps+='\w'
-  ps+='\[${reset}\]'
+  # ps+='\[${reset}\]'
 
   # Git status
   # ps+='$(__prompt_git "\[${dim}\] on \[${reset}\]%s%s")'
