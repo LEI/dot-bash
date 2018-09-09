@@ -29,7 +29,7 @@ main() {
   PROMPT_COMMAND="__prompt_command '›'" # $ ✓ → ×
   PROMPT_DIRTRIM="${PROMPT_DIRTRIM:-3}"
   PS1="$(__prompt_string)"
-  PS2="${PROMPT_SYMBOL:->} "
+  PS2="${PROMPT_SYMBOL:-%_>} "
 
   load "$HOME"/.bashrc.local
 }
