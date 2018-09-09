@@ -1,31 +1,36 @@
 #!/usr/bin/env bash
 
+# PROMPT_COMMAND invoked before rendering prompt string
+# $1: non-privileged prompt symbol
+# $2: line continuation prompt symbol
 __prompt_command() {
   local exit=$?
+
+  PS1_SYMBOL="${1:-${PROMPT_SYMBOL:-\$}}"
+  PS2_SYMBOL="${2:-${PROMPT2_SYMBOL:->}}" # %_
+  if [[ "$UID" -eq 0 ]]; then
+    PS1_SYMBOL='\$' # \#
+  fi
 
   # EXIT_CODE=$exit
   EXIT_COLOR=
   if [[ "$exit" -ne 0 ]]; then
-    EXIT_COLOR="${red}"
-  fi
-
-  PROMPT_SYMBOL="${1:-${PROMPT_SYMBOL:-\$}}"
-  if [[ "$UID" -eq 0 ]]; then
-    PROMPT_SYMBOL="\$" # \#
+    EXIT_COLOR="$red"
   fi
 
   # GIT_STATUS_PORCELAIN="$(__prompt_git)"
 
   # # Right align prompt
   # # https://superuser.com/a/1203400/724216
-  # PS1R=
-  # if hash porcelain 2>/dev/null; then
-  #   PS1R+="$(porcelain '\[${red}\]%s\[${reset}\]' '\[${yellow}\]%s\[${reset}\]' '\[${green}\]%s\[${reset}\]')"
-  #   # PS1R+="$(porcelain)"
-  # fi
+  # PS1R="\e[0m[ \e[0;1;31m%(%b %d %H:%M)T \e[0m]" # '\w'
+  # # if hash porcelain 2>/dev/null; then
+  # #   PS1R+="$(porcelain '\[${red}\]%s\[${reset}\]' '\[${yellow}\]%s\[${reset}\]' '\[${green}\]%s\[${reset}\]')"
+  # #   # PS1R+="$(porcelain)"
+  # # fi
+  # PS1R_stripped=
   # if [[ -n "$PS1R" ]]; then
   #   # Strip ANSI commands before counting length
-  #   PS1R_stripped=$(sed "s,\x1B\[[0-9;]*[a-zA-Z],,g" <<<"$PS1R")
+  #   PS1R_stripped="$(sed "s,\x1B\[[0-9;]*[a-zA-Z],,g" <<<"$PS1R")"
   # fi
 
   # # Record each line as it gets issued
@@ -38,173 +43,175 @@ __prompt_right() {
   printf "%*s\r" "$width" "$1"
 }
 
-__prompt_string() {
-  local p
+# shellcheck disable=SC2016
+__set_prompt_string() {
+  [[ -n "$1" ]] && PROMPT_SYMBOL="$1"
+  [[ -n "$2" ]] && PROMPT2_SYMBOL="$2"
+  local ps=
 
-  # p='\n'
+  # ps+='\n'
 
-  # # Reference: https://en.wikipedia.org/wiki/ANSI_escape_code
-  # # '\e[s' # Save cursor position
-  # # '\e[u' # Restore cursor to save point
-  # p='\[\e[s\e[${COLUMNS:-$(tput cols)}C\e[${#PS1R_stripped}D${PS1R}\e[u\]'
-  # # p='\[$(tput sc; printf "%*s\r" "${COLUMNS:-$(tput cols)}" "$PS1R"; tput rc)\]'
+  # Reference: https://en.wikipedia.org/wiki/ANSI_escape_code
+  # '\e[s' # Save cursor position
+  # '\e[u' # Restore cursor to save point
+
+  #ps+='\[\e[s\e[${COLUMNS:-$(tput cols)}C\e[${#PS1R_stripped}D${PS1R}\e[u\]'
+  # ps+='\[$(tput sc; printf "%*s\r" "${COLUMNS:-$(tput cols)}" "$PS1R"; tput rc)\]'
 
   # Update the terminal title
   # Tmux? \033k\w\033\\
   # OSC title? \033]2;\w\033\\
-  # p+='\[\033]0;\w\007\]'
-  p+='\[\e]2;\w\a\]'
+  # ps+='\[\033]0;\w\007\]'
+  ps+='\[\e]2;\w\a\]'
 
   # # Right align prompt
   # if hash porcelain; then
   #   git_status='$(porcelain "\[${red}\]%s\[${reset}\]" "\[${yellow}\]%s\[${reset}\]" "\[${green}\]%s\[${reset}\]")'
-  #   p+='\[$(tput sc; __prompt_right '"$git_status"'; tput rc)\]'
+  #   ps+='\[$(tput sc; __prompt_right '"$git_status"'; tput rc)\]'
   # fi
 
   # printf "%*(%T)T\r" "$width"
-  # p+='\[$(tput sc; printf "%*s\r" "$width" "$(date +%T)"; tput rc)\]'
-  # p+='\[$(tput sc; printf "%*s" "$width" "\t"; tput rc)\]'
+  # ps+='\[$(tput sc; printf "%*s\r" "$width" "$(date +%T)"; tput rc)\]'
+  # ps+='\[$(tput sc; printf "%*s" "$width" "\t"; tput rc)\]'
 
-  p+='\[${reset}\]'
+  ps+='\[${reset}\]'
   # # Highlight the user when logged in as root
   # if [[ "${USER}" == "root" ]]; then
-  #   p+='\[${red}\]'
+  #   ps+='\[${red}\]'
   # else
-  #   p+='\[${blue}\]'
+  #   ps+='\[${blue}\]'
   # fi
-  # p+='\u'
-  # p+='\[${reset}\]'
+  # ps+='\u'
+  # ps+='\[${reset}\]'
 
   # # Display the host only if different of the user
   # if [[ "${USER}" != "${HOSTNAME%%.*}" ]]; then
-  #   p+=' '
-  #   p+='\[${dim}\]'
-  #   p+='at'
-  #   p+='\[${reset}\]'
-  #   p+=' '
+  #   ps+=' '
+  #   ps+='\[${dim}\]'
+  #   ps+='at'
+  #   ps+='\[${reset}\]'
+  #   ps+=' '
   #   # Highlight when connected via SSH
   #   if [[ -n "${SSH_TTY}" ]]; then
-  #     p+='\[${red}\]'
+  #     ps+='\[${red}\]'
   #   else
-  #     p+='\[${cyan}\]'
+  #     ps+='\[${cyan}\]'
   #   fi
-  #   p+='\h'
-  #   p+='\[${reset}\]'
+  #   ps+='\h'
+  #   ps+='\[${reset}\]'
   # fi
   if [[ -n "$SSH_TTY" ]]; then
     if [[ "$UID" -eq 0 ]]; then
-      p+='\[${red}\]'
+      ps+='\[${red}\]'
     else
-      p+='\[${dim}\]'
+      ps+='\[${dim}\]'
     fi
-    p+='\h'
-    p+='\[${reset}\]'
-    p+=' '
+    ps+='\h'
+    ps+='\[${reset}\]'
+    ps+=' '
   fi
 
   # Working directory
-  # p+=' '
-  # p+='\[${dim}\]'
-  # p+='in'
-  # p+='\[${reset}\]'
-  # p+=' '
-  # # p+='\[${bold}\]'
-  p+='\[${bright_blue}\]' # white
-  p+='\w'
-  p+='\[${reset}\]'
+  # ps+=' '
+  # ps+='\[${dim}\]'
+  # ps+='in'
+  # ps+='\[${reset}\]'
+  # ps+=' '
+  # # ps+='\[${bold}\]'
+
+  ps+='\[${bright_blue}\]' # white
+  ps+='\w'
+  ps+='\[${reset}\]'
 
   # Git status
-  # p+='$(__prompt_git "\[${dim}\] on \[${reset}\]%s%s")'
-  p+='$(__prompt_git)'
-  # p+='$GIT_STATUS_PORCELAIN'
+  # ps+='$(__prompt_git "\[${dim}\] on \[${reset}\]%s%s")'
+  #ps+='$(__prompt_git)'
+  ps+='$(hash porcelain 2>/dev/null && porcelain " \[${red}\]%s\[${reset}\]" " \[${yellow}\]%s\[${reset}\]" " \[${green}\]%s\[${reset}\]")'
+  # ps+='$GIT_STATUS_PORCELAIN'
 
-  # p+='\n'
-  p+=' '
+  # ps+='\n'
+  ps+=' '
 
-  p+='\[${EXIT_COLOR}\]'
-  p+='${PROMPT_SYMBOL} '
-  p+='\[${reset}\]'
+  ps+='\[${EXIT_COLOR}\]'
+  ps+='$PS1_SYMBOL' #ps+='$(printf "${PROMPT_SYMBOL_FORMAT}" "${PROMPT_SYMBOL}")'
+  ps+='\[${reset}\]'
 
-  printf "%s" "$p"
+  PROMPT="${ps} " # printf "%s" "$ps"
+  PROMPT2='${PS2_SYMBOL} '
 }
 
-__prompt_git() {
-  if hash porcelain 2>/dev/null; then
-    # porcelain " \[${red}\]%s\[${reset}\]" " \[${yellow}\]%s\[${reset}\]" " \[${green}\]%s\[${reset}\]"
-    porcelain " ${red}%s${reset}" " ${yellow}%s${reset}" " ${green}%s${reset}"
-  fi
-
-  # local exit=$?
-  # local repo_info="$(git rev-parse --git-dir --is-inside-git-dir \
-  #   --is-bare-repository --is-inside-work-tree \
-  #   --short HEAD 2>/dev/null)"
-  # local rev_parse_exit="$?"
-  # if [[ -z "$repo_info" ]]; then
-  #   return $exit
-  # fi
-  # local short_sha="${repo_info##*$'\n'}"
-
-  # local line=
-  # local branch_info=
-  # local count=0
-  # while IFS= read -r -d '' line; do
-  #   case "${line:0:2}" in
-  #     \#\#) branch_info="${line#\#\# }" ;;
-  #     *) ((count++)) ;;
-  #     # ?M) ((changed++)) ;;
-  #     # ?A) ((added++)) ;;
-  #     # ?D) ((deleted++)) ;;
-  #     # U?) ((updated++)) ;;
-  #     # \?\?) ((untracked++)) ;;
-  #     # *) ((staged++)) ;;
-  #   esac
-  # done < <(git status -z --porcelain --branch) 2>/dev/null
-
-  # local behind ahead
-  # local pattern=
-  # local var=
-  # for var in {ahead,behind}; do
-  #   ## [ahead x, behind y]
-  #   pattern='(\[|[[:space:]])'${var}'[[:space:]]+([[:digit:]])(,|\])'
-  #   if [[ "$branch_info" =~ $pattern ]]; then
-  #     if [[ "${#BASH_REMATCH[@]}" -ge 2 ]]; then
-  #       # ${!var}="${BASH_REMATCH[2]}"
-  #       declare "${var}"="${BASH_REMATCH[2]}"
-  #     fi
-  #   fi
-  # done
-
-  # local diff=
-  # local head_no_branch=""
-  # [[ -n "$behind" ]] && diff+="<"
-  # [[ -n "$ahead" ]] && diff+=">"
-  # local branch=
-  # ## master...origin/master
-  # if [[ "$branch_info" =~ \.\.\. ]]; then
-  #   branch="${branch_info%\.\.\.*}"
-  #   branch="${branch##* }"
-  # elif [[ "$branch_info" == "HEAD (no branch)" ]]; then
-  #   branch="$short_sha"
-  # else
-  #   branch="$branch_info"
-  # fi
-
-  # local flag=
-  # local flag_color="bright_blue"
-  # local branch_color=
-  # if [[ "$count" -gt 0 ]]; then
-  #   flag="*"
-  #   if [[ "$branch" == "master" ]]; then
-  #     branch_color="red"
-  #   else
-  #     branch_color="orange"
-  #   fi
-  # elif [[ -n "$ahead" ]] || [[ -n "$behind" ]]; then
-  #   branch_color="yellow"
-  # else
-  #   branch_color="green"
-  # fi
-
-  # local printf_format="${1:- on %s%s}"
-  # printf -- "${printf_format}" "${!branch_color}$branch${reset}" "${!flag_color}$flag${reset}$diff"
-}
+# __prompt_git() {
+#   local exit=$?
+#   local repo_info="$(git rev-parse --git-dir --is-inside-git-dir \
+#     --is-bare-repository --is-inside-work-tree \
+#     --short HEAD 2>/dev/null)"
+#   local rev_parse_exit="$?"
+#   if [[ -z "$repo_info" ]]; then
+#     return $exit
+#   fi
+#   local short_sha="${repo_info##*$'\n'}"
+#
+#   local line=
+#   local branch_info=
+#   local count=0
+#   while IFS= read -r -d '' line; do
+#     case "${line:0:2}" in
+#       \#\#) branch_info="${line#\#\# }" ;;
+#       *) ((count++)) ;;
+#       # ?M) ((changed++)) ;;
+#       # ?A) ((added++)) ;;
+#       # ?D) ((deleted++)) ;;
+#       # U?) ((updated++)) ;;
+#       # \?\?) ((untracked++)) ;;
+#       # *) ((staged++)) ;;
+#     esac
+#   done < <(git status -z --porcelain --branch) 2>/dev/null
+#
+#   local behind ahead
+#   local pattern=
+#   local var=
+#   for var in {ahead,behind}; do
+#     ## [ahead x, behind y]
+#     pattern='(\[|[[:space:]])'${var}'[[:space:]]+([[:digit:]])(,|\])'
+#     if [[ "$branch_info" =~ $pattern ]]; then
+#       if [[ "${#BASH_REMATCH[@]}" -ge 2 ]]; then
+#         # ${!var}="${BASH_REMATCH[2]}"
+#         declare "${var}"="${BASH_REMATCH[2]}"
+#       fi
+#     fi
+#   done
+#
+#   local diff=
+#   local head_no_branch=""
+#   [[ -n "$behind" ]] && diff+="<"
+#   [[ -n "$ahead" ]] && diff+=">"
+#   local branch=
+#   ## master...origin/master
+#   if [[ "$branch_info" =~ \.\.\. ]]; then
+#     branch="${branch_info%\.\.\.*}"
+#     branch="${branch##* }"
+#   elif [[ "$branch_info" == "HEAD (no branch)" ]]; then
+#     branch="$short_sha"
+#   else
+#     branch="$branch_info"
+#   fi
+#
+#   local flag=
+#   local flag_color="bright_blue"
+#   local branch_color=
+#   if [[ "$count" -gt 0 ]]; then
+#     flag="*"
+#     if [[ "$branch" == "master" ]]; then
+#       branch_color="red"
+#     else
+#       branch_color="orange"
+#     fi
+#   elif [[ -n "$ahead" ]] || [[ -n "$behind" ]]; then
+#     branch_color="yellow"
+#   else
+#     branch_color="green"
+#   fi
+#
+#   local printf_format="${1:- on %s%s}"
+#   printf -- "${printf_format}" "${!branch_color}$branch${reset}" "${!flag_color}$flag${reset}$diff"
+# }

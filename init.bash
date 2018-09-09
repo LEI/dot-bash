@@ -26,10 +26,11 @@ main() {
   done
 
   # [[ -z "$PS1" ]] && PS1='\u at \h in \w\n\$ '
-  PROMPT_COMMAND="__prompt_command '›'" # $ ✓ → ×
+  PROMPT_COMMAND="__prompt_command ''" # $ ✓ → ×
   PROMPT_DIRTRIM="${PROMPT_DIRTRIM:-3}"
-  PS1="$(__prompt_string)"
-  PS2="${PROMPT_SYMBOL:-%_>} "
+  __set_prompt_string "›" # "${PROMPT_SYMBOL:-›}"
+  PS1="${PROMPT:-\$ }"
+  PS2="${PROMPT2:-%_> }"
 
   load "$HOME"/.bashrc.local
 }
