@@ -7,3 +7,5 @@ fi
 export GOPATH="$HOME/go" # ~/Projects?
 # export GOROOT="$HOME/go"
 pathmunge "$GOPATH/bin" after
+
+export GO111MODULE=auto # on
