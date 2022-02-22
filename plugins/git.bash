@@ -15,8 +15,9 @@ g() {
 }
 
 # [[ -f /usr/local/etc/bash_completion.d/git-completion.bash ]]
-if hash _git 2>/dev/null; then
-  complete -o bashdefault -o default -o nospace -F _git g # __git_wrap__git_main
+# https://stackoverflow.com/a/24665529/7796750
+if hash __git_complete 2>/dev/null; then
+  __git_complete g __git_main
 fi
 
 # https://github.com/defunkt/gist
@@ -28,7 +29,7 @@ if ! hash gist 2>/dev/null || [[ "$_custom_gist" -eq 1 ]]; then
     case "$cmd" in
       '') find "$base_dir" -mindepth 2 -maxdepth 2 -type d ;; # List
       clone) git clone "$@" ;;
-      # add) git clone "$1" "${2:-$base_dir/...}" ;;
+        # add) git clone "$1" "${2:-$base_dir/...}" ;;
     esac
   }
   _custom_gist=1
