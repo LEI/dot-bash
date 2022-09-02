@@ -1,5 +1,10 @@
 #!/usr/bin/env bash
 
+# export PATH="/usr/local/opt/ruby/bin:$PATH"
+if [[ -d /usr/local/opt/ruby/bin ]]; then
+  pathmunge "/usr/local/opt/ruby/bin" before
+fi
+
 if ! hash ruby 2>/dev/null; then
   return
 fi

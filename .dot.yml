@@ -10,9 +10,9 @@ role:
     - name: fzf
       os: ["darwin"]
     # - gzip
-    - name: unrar # non-free
-      os: ["!centos", "!debian"]
-      # os: ["arch", "darwin"]
+    # - name: unrar # non-free
+    #   os: ["!centos", "!debian"]
+    #   # os: ["arch", "darwin"]
     - unzip
     # - wget
   # pkg_android: # termux
