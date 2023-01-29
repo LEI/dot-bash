@@ -4,6 +4,8 @@ if ! hash tmux 2>/dev/null; then
   return
 fi
 
+alias tmux="env TERM=tmux-256color tmux"
+
 t() {
   if [[ $# -ne 0 ]]; then
     tmux "$@"
