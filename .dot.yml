@@ -1,0 +1,51 @@
+---
+role:
+  pkg:
+    - name: bash
+      action: install
+    - bash-completion
+    # - curl
+    - name: tree
+      action: install # required by pass
+    - name: fzf
+      os: ["darwin"]
+    # - gzip
+    # - name: unrar # non-free
+    #   os: ["!centos", "!debian"]
+    #   # os: ["arch", "darwin"]
+    - unzip
+    # - wget
+  # pkg_android: # termux
+  #   - busybox
+  #   - ca-certificates
+  #   - coreutils
+  #   - curl
+  #   - grep
+  #   - less
+  #   - man
+  #   - ncurses-utils
+  #   - readline
+  copy:
+    - source: https://raw.githubusercontent.com/LEI/porcelain/master/porcelain.sh
+      target: bin/porcelain
+      mode: 0755
+  dir:
+    - .bash.d
+  link:
+    - "*.bash:.bash.d"
+    - "aliases:.bash.d"
+    - "environment:.bash.d"
+    - "functions:.bash.d"
+    - "plugins:.bash.d"
+  line:
+    ".bashrc": "[[ -n \"$PS1\" ]] && [[ -f ~/.bash_profile ]] && source ~/.bash_profile"
+    ".bash_profile": "[[ -f ~/.bash.d/init.bash ]] && source ~/.bash.d/init.bash"
+  post_install:
+    # FIXME: check if ~/.bashrc is already sourced from ~/.bash_profile
+    # Quickfix arch # test -f ~/.bash_profile
+    - command: "sed -i '/[[ -f ~\\/.bashrc ]] && . ~\\/.bashrc/d' $DOT_TARGET/.bash_profile"
+      if: "grep '[[ -f ~/.bashrc ]] && . ~/.bashrc' $DOT_TARGET/.bash_profile"
+    # Switch to using brew-installed bash as default shell
+    - command: 'echo /usr/local/bin/bash | sudo tee -a /etc/shells; chsh -s /usr/local/bin/bash'
+      if: '! fgrep -q "/usr/local/bin/bash" /etc/shells && [ "$CI" != true ]'
+      os: darwin
