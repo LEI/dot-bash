@@ -23,6 +23,22 @@ else
         sed s/^..//) 2> /dev/null'
 fi
 
+# https://github.com/helix-editor/helix/issues/196#issuecomment-1412493924
+# export FZF_DEFAULT_OPTS='... ,ctrl-o:execute(hx $(echo {} | cut -d ":" -f1))'
+if hash rg 2>/dev/null; then
+  fzf_search() {
+    local editor=hx # "${VISUAL:-${EDITOR}}"
+    local batcat="bat"
+    # Search using rg and fzf with preview
+    local out=$(rg . --line-number --column --no-heading --glob '!.git' |
+      fzf +i --exact --delimiter : --preview "$batcat --style=full --color=always --highlight-line {2} {1}" --preview-window 'up,~4,+{2}+4/2')
+
+    # Remove cruft leaving something like: 'file:line:column'
+    # echo "$out" | sed -E 's/([a-zA-Z0-9/-_]*):([0-9]*):([0-9]*):.*/\1:\2:\3/'
+    $editor "$(echo $out | cut -d: -f1)"
+  }
+fi
+
 export FZF_DEFAULT_OPTS='' # --height 40% --reverse --border
 # --color fg:242,bg:236,hl:65,fg+:15,bg+:239,hl+:108
 # --color info:108,prompt:109,spinner:108,pointer:168,marker:168
