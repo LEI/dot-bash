@@ -6,6 +6,7 @@ if ! hash git 2>/dev/null; then
   return
 fi
 
+# alias g="git"
 g() {
   if [[ $# -gt 0 ]]; then
     git "$@"
@@ -32,6 +33,14 @@ changelog() {
 if hash __git_complete 2>/dev/null; then
   __git_complete g __git_main
 fi
+
+# # https://stackoverflow.com/a/52169814/7796750
+# if [ -f "/usr/share/bash-completion/completions/git" ]; then
+#   source /usr/share/bash-completion/completions/git
+#   __git_complete g __git_main # complete -F _git_main g
+# else
+#   echo "Error loading git completions"
+# fi
 
 # https://github.com/defunkt/gist
 if ! hash gist 2>/dev/null || [[ "$_custom_gist" -eq 1 ]]; then
